@@ -10,14 +10,30 @@ import {
 } from '@ant-design/pro-components';
 import { message, Tabs } from 'antd';
 import { useMutation } from '@apollo/client';
-import { SEND_PHONE_CAPTCHA } from '@/graphql/auth';
+import { LOGIN, SEND_PHONE_CAPTCHA } from '@/graphql/auth';
 import styles from './index.module.less';
+
+interface IValue {
+  phoneNumber: string;
+  code: string;
+}
 
 export default () => {
   const [run] = useMutation(SEND_PHONE_CAPTCHA);
+  const [login] = useMutation(LOGIN);
+
+  const loginHandler = async (values: IValue) => {
+    const res = await login({ variables: values });
+    if (res.data.login.code === 200) {
+      message.success(res.data.login.message);
+    } else {
+      message.error(res.data.login.message);
+    }
+  };
   return (
     <div className={styles.container}>
       <LoginFormPage
+        onFinish={loginHandler}
         initialValues={{ phoneNumber: '' }}
         backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
         logo="https://water-drop-resources.oss-cn-chengdu.aliyuncs.com/images/henglogo%402x.png"
@@ -59,7 +75,7 @@ export default () => {
             return '获取验证码';
           }}
           phoneName="phoneNumber"
-          name="captcha"
+          name="code"
           rules={[
             {
               required: true,
