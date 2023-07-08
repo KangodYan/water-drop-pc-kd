@@ -14,6 +14,7 @@ export const LOGIN = gql`
     login(phoneNumber: $phoneNumber, code: $code) {
       code
       message
+      data
     }
   }
 `;
