@@ -19,6 +19,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// 合并拦截器动作到httpLink中
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),

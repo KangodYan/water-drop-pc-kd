@@ -13,6 +13,7 @@ import { useMutation } from '@apollo/client';
 import { LOGIN, SEND_PHONE_CAPTCHA } from '@/graphql/auth';
 import { AUTH_TOKEN } from '@/utils/constants';
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '@/hooks/userHooks';
 import styles from './index.module.less';
 
 interface IValue {
@@ -24,12 +25,14 @@ interface IValue {
 export default () => {
   const [run] = useMutation(SEND_PHONE_CAPTCHA);
   const [login] = useMutation(LOGIN);
+  const { store } = useUserContext();
   const nav = useNavigate();
 
   const loginHandler = async (values: IValue) => {
     // 调用登录API，返回API的响应信息
     const res = await login({ variables: values });
     if (res.data.login.code === 200) {
+      store.refetchHandler();
       message.success(res.data.login.message);
       // 如果勾选了自动登录，就存储token至localStorage
       if (values.autoLogin) {
