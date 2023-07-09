@@ -13,6 +13,9 @@ export const useUserContext = () => useAppContext<IUser>(KEY);
 
 export const connect = connectFactory(KEY, DEFAULT_VALUE);
 
+/**
+ * 用户信息处理的hooks
+ */
 export const useGetUser = () => {
   const { setStore } = useUserContext();
   const nav = useNavigate();
@@ -35,14 +38,14 @@ export const useGetUser = () => {
       setStore({ refetchHandler: refetch });
       // 如果不在登录页面，但是目前没有登录，那就直接跳到登录页面
       if (location.pathname !== '/login') {
-        nav(`/login?orgUrl=${location.pathname}`);
+        nav(`/login?srcUrl=${location.pathname}`);
       }
     },
     onError: () => {
       setStore({ refetchHandler: refetch });
       // 如果不在登录页面，但是目前登录异常，那就直接跳到登录页面
       if (location.pathname !== '/login') {
-        nav(`/login?orgUrl=${location.pathname}`);
+        nav(`/login?srcUrl=${location.pathname}`);
       }
     },
   });

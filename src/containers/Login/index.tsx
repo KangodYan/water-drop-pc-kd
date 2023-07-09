@@ -12,8 +12,9 @@ import { message, Tabs } from 'antd';
 import { useMutation } from '@apollo/client';
 import { LOGIN, SEND_PHONE_CAPTCHA } from '@/graphql/auth';
 import { AUTH_TOKEN } from '@/utils/constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUserContext } from '@/hooks/userHooks';
+import { useTitle } from '@/hooks';
 import styles from './index.module.less';
 
 interface IValue {
@@ -26,7 +27,9 @@ export default () => {
   const [run] = useMutation(SEND_PHONE_CAPTCHA);
   const [login] = useMutation(LOGIN);
   const { store } = useUserContext();
+  const [params] = useSearchParams();
   const nav = useNavigate();
+  useTitle('登录');
 
   const loginHandler = async (values: IValue) => {
     // 调用登录API，返回API的响应信息
@@ -36,10 +39,15 @@ export default () => {
       message.success(res.data.login.message);
       // 如果勾选了自动登录，就存储token至localStorage
       if (values.autoLogin) {
+        sessionStorage.setItem(AUTH_TOKEN, '');
         localStorage.setItem(AUTH_TOKEN, res.data.login.data);
+      } else {
+        // 没勾选自动登录，就存储token至sessionStorage
+        localStorage.setItem(AUTH_TOKEN, '');
+        sessionStorage.setItem(AUTH_TOKEN, res.data.login.data);
       }
       // 登录完成跳转
-      nav('/');
+      nav(params.get('srcUrl') || '/');
     } else {
       message.error(res.data.login.message);
     }
@@ -48,13 +56,11 @@ export default () => {
     <div className={styles.container}>
       <LoginFormPage
         onFinish={loginHandler}
-        initialValues={{ phoneNumber: '' }}
+        initialValues={{ phoneNumber: '13331027054' }}
         backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
         logo="https://water-drop-resources.oss-cn-chengdu.aliyuncs.com/images/henglogo%402x.png"
       >
-        <Tabs centered>
-          <Tabs.TabPane key="phone" tab="手机号登录" />
-        </Tabs>
+        <Tabs centered items={[{ key: 'phone', tab: '手机号登录' }]} />
         <ProFormText
           fieldProps={{
             size: 'large',

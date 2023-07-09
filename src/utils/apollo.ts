@@ -9,7 +9,7 @@ const httpLink = createHttpLink({
 // 一个拦截器，在请求前加入动作
 const authLink = setContext((_, { headers }) => {
   // 从localStorage中取出token
-  const token = localStorage.getItem(AUTH_TOKEN);
+  const token = sessionStorage.getItem(AUTH_TOKEN) || localStorage.getItem(AUTH_TOKEN);
   // 在请求头里加Authorization，Bearer格式的token
   return {
     headers: {
