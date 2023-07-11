@@ -10,15 +10,16 @@ import {
 } from '@ant-design/pro-components';
 import { message, Tabs } from 'antd';
 import { useMutation } from '@apollo/client';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import { LOGIN, SEND_PHONE_CAPTCHA } from '@/graphql/auth';
 import { AUTH_TOKEN } from '@/utils/constants';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUserContext } from '@/hooks/userHooks';
 import { useTitle } from '@/hooks';
 import styles from './index.module.less';
 
 interface IValue {
-  phoneNumber: string;
+  tel: string;
   code: string;
   autoLogin: boolean;
 }
@@ -35,6 +36,7 @@ export default () => {
     // 调用登录API，返回API的响应信息
     const res = await login({ variables: values });
     if (res.data.login.code === 200) {
+      // 刷新用户信息
       store.refetchHandler();
       message.success(res.data.login.message);
       // 如果勾选了自动登录，就存储token至localStorage
@@ -56,17 +58,17 @@ export default () => {
     <div className={styles.container}>
       <LoginFormPage
         onFinish={loginHandler}
-        initialValues={{ phoneNumber: '13331027054' }}
+        initialValues={{ tel: '13331027054' }}
         backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
         logo="https://water-drop-resources.oss-cn-chengdu.aliyuncs.com/images/henglogo%402x.png"
       >
-        <Tabs centered items={[{ key: 'phone', tab: '手机号登录' }]} />
+        <Tabs centered items={[{ key: 'phone', label: '手机号登录' }]} />
         <ProFormText
           fieldProps={{
             size: 'large',
             prefix: <MobileOutlined className="prefixIcon" />,
           }}
-          name="phoneNumber"
+          name="tel"
           placeholder="手机号"
           rules={[
             {
@@ -94,7 +96,7 @@ export default () => {
             }
             return '获取验证码';
           }}
-          phoneName="phoneNumber"
+          phoneName="tel"
           name="code"
           rules={[
             {
@@ -102,10 +104,10 @@ export default () => {
               message: '请输入验证码！',
             },
           ]}
-          onGetCaptcha={async (phoneNumber: string) => {
+          onGetCaptcha={async (tel: string) => {
             const res = await run({
               variables: {
-                phoneNumber,
+                tel,
               },
             });
             if (res.data.sendCodeMsg.code === 200) {

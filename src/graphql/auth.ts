@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const SEND_PHONE_CAPTCHA = gql`
-  mutation sendPhoneCaptcha($phoneNumber: String!) {
-    sendPhoneCaptcha(phoneNumber: $phoneNumber) {
+  mutation sendPhoneCaptcha($tel: String!) {
+    sendPhoneCaptcha(tel: $tel) {
       code
       message
     }
@@ -10,8 +10,8 @@ export const SEND_PHONE_CAPTCHA = gql`
 `;
 
 export const LOGIN = gql`
-  mutation login($phoneNumber: String!, $code: String!) {
-    login(phoneNumber: $phoneNumber, code: $code) {
+  mutation login($tel: String!, $code: String!) {
+    login(tel: $tel, code: $code) {
       code
       message
       data

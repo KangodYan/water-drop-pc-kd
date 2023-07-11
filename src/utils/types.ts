@@ -8,6 +8,6 @@ export interface IUser {
   name: string;
   desc: string;
   avatar: string;
-  refetchHandler?: () => void;
+  refetchHandler: () => void;
   currentOrg?: string;
 }
