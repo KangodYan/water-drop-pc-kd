@@ -31,7 +31,7 @@ const Layout = () => {
   };
 
   return (
-    // 详见andt pro文档https://procomponents.ant.design/components/layout
+    // 详见antd pro文档https://procomponents.ant.design/components/layout
     <ProLayout
       layout="mix"
       siderWidth={150}

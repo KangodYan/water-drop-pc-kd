@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Routes>
           {/* 登录页面应在Layout外面，不显示菜单 */}
           <Route path="/login" element={<Login />} />
-          {/* 内部为andt pro的ProLayout */}
+          {/* 内部为antd pro的ProLayout */}
           <Route path="/" element={<Layout />}>
             {/* 循环路由配置 */}
             {routes.map((item) => {
