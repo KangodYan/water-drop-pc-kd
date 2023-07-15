@@ -30,12 +30,12 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
   [ROUTE_KEY.MY]: {
     path: 'my',
     name: '个人信息',
-    icon: <HomeOutlined />,
+    hideInMenu: true,
   },
   [ROUTE_KEY.PAGE_404]: {
     path: '*',
-    hideInMenu: true,
     name: '404',
+    hideInMenu: true,
   },
 };
 

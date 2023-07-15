@@ -11,3 +11,12 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const UPDATE_USER_INFO = gql`
+  mutation updateUserInfo($id: String!, $params: UserInput!) {
+    updateUserInfo(id: $id, params: $params) {
+      code
+      message
+    }
+  }
+`;
