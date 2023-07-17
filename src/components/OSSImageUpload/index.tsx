@@ -46,7 +46,9 @@ const OSSImageUpload = ({
     return { key, url };
   };
 
-  // 上传文件改变时的回调
+  /**
+   * 上传文件改变时的回调
+   */
   const handleChange: UploadProps['onChange'] = ({ fileList }) => {
     const files = fileList.map((f) => ({
       ...f,
@@ -55,7 +57,9 @@ const OSSImageUpload = ({
     onChange?.(files);
   };
 
-  // 上传所需额外参数或返回上传额外参数的方法
+  /**
+   * 上传所需额外参数或返回上传额外参数的方法
+   */
   const getExtraData: UploadProps['data'] = (file) => ({
     key: getKey(file).key,
     OSSAccessKeyId: OSSData?.accessId,
@@ -63,7 +67,9 @@ const OSSImageUpload = ({
     Signature: OSSData?.signature,
   });
 
-  // 上传文件之前的hook
+  /**
+   * 上传文件之前的处理
+   */
   const beforeUpload: UploadProps['beforeUpload'] = async (file) => {
     if (!OSSData) return false;
 
@@ -77,7 +83,9 @@ const OSSImageUpload = ({
 
   // 返回antd读取的图片标签对象及属性函数
   return (
+    // [可裁切图片的组件]详见antd-img-crop：https://github.com/nanxiaobei/antd-img-crop
     <ImgCrop rotate aspect={imgCropAspect}>
+      {/* [文件上传组件]详见antd-上传：https://ant.design/components/upload-cn#api */}
       <Upload
         name="file"
         maxCount={maxCount}

@@ -1,5 +1,5 @@
 import {
-  HomeOutlined,
+  HomeOutlined, ShopOutlined,
 } from '@ant-design/icons';
 
 interface IRoute {
@@ -26,6 +26,11 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
     path: 'home',
     name: '首页',
     icon: <HomeOutlined />,
+  },
+  [ROUTE_KEY.ORG]: {
+    path: 'orh',
+    name: '门店管理',
+    icon: <ShopOutlined />,
   },
   [ROUTE_KEY.MY]: {
     path: 'my',
