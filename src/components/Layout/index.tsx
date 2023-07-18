@@ -4,11 +4,14 @@ import { useUserContext } from '@/hooks/userHooks';
 import { AUTH_TOKEN } from '@/utils/constants';
 
 import { ROUTE_KEY, routes } from '@/routes/menus';
-import { useGoTo } from '@/hooks';
-import { Space } from 'antd';
-import { LogoutOutlined } from '@ant-design/icons';
+import { useGoTo, useIsOrgRoute } from '@/hooks';
+import { Space, Tooltip } from 'antd';
+import { LogoutOutlined, ShopOutlined } from '@ant-design/icons';
+import OrgSelect from '../OrgSelect';
 
-// 菜单切换
+/**
+ * 菜单切换
+ */
 const menuItemRender = (
   item: MenuDataItem,
   dom: React.ReactNode,
@@ -21,6 +24,8 @@ const Layout = () => {
   // 路由插槽，显示页面内容用的
   const outlet = useOutlet();
   const { store } = useUserContext();
+  // 判断是否显示门店选择器
+  const isOrg = useIsOrgRoute();
   const { go } = useGoTo();
   const nav = useNavigate();
 
@@ -30,8 +35,12 @@ const Layout = () => {
     nav('/login');
   };
 
+  const goToOrg = () => {
+    go(ROUTE_KEY.ORG);
+  };
+
   return (
-    // 详见antd pro文档https://procomponents.ant.design/components/layout
+    // [高级布局]详见antd pro文档https://procomponents.ant.design/components/layout
     <ProLayout
       layout="mix"
       siderWidth={150}
@@ -59,6 +68,12 @@ const Layout = () => {
       title={false}
       logo={<img src="https://water-drop-assets.oss-cn-hangzhou.aliyuncs.com/images/henglogo.png" alt="logo" />}
       onMenuHeaderClick={() => nav('/')}
+      actionsRender={() => [
+        !isOrg && <OrgSelect />,
+        <Tooltip title="门店管理">
+          <ShopOutlined onClick={goToOrg} />
+        </Tooltip>,
+      ]}
     >
       <div key={store.currentOrg}>
         {outlet}

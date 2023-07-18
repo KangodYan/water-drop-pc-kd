@@ -74,6 +74,7 @@ const EditOrg = ({
       open
       footerStyle={{ textAlign: 'right' }}
       footer={(
+        // [通用-按钮组件]详见antd-按钮：https://ant.design/components/button-cn#api
         <Button
           loading={editLoading}
           type="primary"

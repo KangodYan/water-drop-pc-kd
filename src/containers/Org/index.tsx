@@ -69,7 +69,9 @@ const Org = () => {
     key: item.id,
     subTitle: <div>{item.tags?.split(',').map((tag) => (<Tag key={tag} color="#5BD8A6">{tag}</Tag>))}</div>,
     actions: [
+      // [通用-按钮组件]详见antd-按钮：https://ant.design/components/button-cn#api
       <Button type="link" onClick={() => editInfoHandler(item.id)}>编辑</Button>,
+      // [反馈-确认框组件]详见antd-气泡确认框：https://ant.design/components/popconfirm-cn#api
       <Popconfirm
         title="提醒"
         okButtonProps={{
@@ -86,6 +88,7 @@ const Org = () => {
 
   return (
     <div className={style.container}>
+      {/* [布局-页容器]详见antd pro-页容器：https://procomponents.ant.design/components/page-container#api */}
       <PageContainer
         // loading是查询列表API中的useQuery返回的
         loading={loading}
@@ -133,7 +136,7 @@ const Org = () => {
           // [列表数据源]详见antd-列表：https://ant.design/components/list-cn#api
           dataSource={dataSource}
         />
-        {/* 编辑抽屉 */}
+        {/* 自定义编辑抽屉 */}
         {showEdit && (
         <EditOrg
           id={curId}

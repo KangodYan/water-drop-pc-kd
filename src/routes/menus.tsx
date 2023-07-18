@@ -28,9 +28,15 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
     icon: <HomeOutlined />,
   },
   [ROUTE_KEY.ORG]: {
-    path: 'orh',
+    path: 'org',
     name: '门店管理',
     icon: <ShopOutlined />,
+    hideInMenu: true,
+  },
+  [ROUTE_KEY.NO_ORG]: {
+    path: 'noOrg',
+    name: '选择门店提示',
+    hideInMenu: true,
   },
   [ROUTE_KEY.MY]: {
     path: 'my',

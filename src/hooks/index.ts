@@ -1,6 +1,8 @@
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import {
+  ROUTE_CONFIG,
+  ROUTE_KEY,
   getRouteByKey, routes,
 } from '@/routes/menus';
 
@@ -50,4 +52,17 @@ export const useMatchedRoute = () => {
     (item) => matchPath(`/${item.path}`, r.pathname),
   ), [r.pathname]);
   return route;
+};
+
+/**
+ * 判断是否显示门店选择器
+ */
+export const useIsOrgRoute = () => {
+  // 获取当前路由
+  const curRoute = useMatchedRoute();
+  // 判断当前页面是否是门店管理页面
+  if (curRoute?.path === ROUTE_CONFIG[ROUTE_KEY.ORG].path) {
+    return true;
+  }
+  return false;
 };
