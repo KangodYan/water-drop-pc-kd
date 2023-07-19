@@ -30,7 +30,7 @@ const OrgSelect = () => {
   }, []);
 
   /**
-   * 文本框变化时处理，使用lodash的debounce，添加节流的功能
+   * 文本框变化时处理，使用lodash的debounce，添加防抖的函数
    */
   const onSearchHandler = _.debounce((name: string) => {
     refetch({
